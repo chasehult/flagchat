@@ -1,0 +1,96 @@
+﻿* {
+    box-sizing: border-box;
+    margin: 0;
+    font-family: 'Century Gothic';
+}
+
+body {
+    background: url("imgs/apartments.jpg") no-repeat center center fixed;
+    overflow:hidden;
+}
+
+#login, #signup {
+    position: fixed;
+    padding: 50px;
+    padding-top: 20px;
+    width: 30%;
+    height: 40%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 25px;
+}
+
+h1 {
+    position: relative;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.box {
+    position: relative;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 30px;
+    width: 100%;
+}
+.submit {
+    display: block;
+    height: 40px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #053C5E;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 15px;
+    background-color: white;
+    border: none;
+}
+
+/*Login Page*/
+
+
+#login {
+    background-color: #053C5E;
+}
+
+#login h1 {
+    font-size: 50px;
+}
+
+#login .box {
+    color: #c1645d;
+}
+
+#loginButton {
+    color: #053C5E;
+    width: 20%;
+    margin-top: 25px;
+}
+/*End Login*/
+
+/*Sign up Page*/
+#signup {
+    background-color: #c1645d;
+}
+
+#signup h1 {
+    font-size: 35px;
+}
+
+#signup .box {
+    color: #053C5E;
+}
+
+#signupButton {
+    color: #c1645d;
+    width: 30%;
+    margin-top: 15px;
+}
+
+/*End Sign Up*/

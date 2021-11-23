@@ -17,55 +17,44 @@ app.use(cookieParser());
 
 const port = 80;
 
-const db  = mongoose.connection;
-const mongoDBURL = 'mongodb://127.0.0.1/flagchat';
+// Set up MongoDB
+mongoose.connect('mongodb://127.0.0.1/flagchat', {useNewUrlParser: true});
+mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-// Some code for tracking the sessions on the server
+var ObjectId = mongoose.Schema.ObjectId
+var User = mongoose.model('User', new mongoose.Schema({
+  username: String,
+  password: String,  // Salted MD5 hash
+  following: [ObjectId],  // User
+}));
+var Post = mongoose.model('Post', new mongoose.Schema({
+  title: String,
+  content: String,
+  poster: ObjectId,  // User
+  reply: ObjectId,  // Post (or NULL)
+  likes: [ObjectId],  // User
+  timestamp: Date,
+}));
+var Message = mongoose.model('Message', new mongoose.Schema({
+  content: String,
+  poster: ObjectId,  // User
+  receiver: ObjectId,  // User
+  timestamp: Date,
+}));
 
-// map usernames to timestamp
+// Login and authentification
 var sessions = {};
-const LOGIN_TIME = 10 * 60 * 60;
-
 function filterSessions() {
   var now = Date.now();
   for (x in sessions) {
-    username = x;
+    username = x;  // TODO: Find out if this is necessary?
     time = sessions[x];
-    if (time + LOGIN_TIME < now) {
+    if (time + 10 * 60 * 60 < now) {
       delete sessions[username];
     }
   }
 }
-
 setInterval(filterSessions, 2 * 1000);
-
-
-// Set up default mongoose connection
-mongoose.connect(mongoDBURL, {useNewUrlParser: true});
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
-var Schema = mongoose.Schema;
-var Item = new Schema({
-  title: String,
-  description: String,
-  image: String,
-  price: Number,
-  status: String,
-});
-var ItemModel = mongoose.model('ItemModel', Item);
-
-var User = new Schema({
-  username: String,
-  password: String,
-  listings: [Schema.Types.ObjectId],
-  purchases: [Schema.Types.ObjectId],
-});
-var UserModel = mongoose.model('UserModel', User);
-
-app.use('/app/*', authenticate);
-app.use(express.static('public_html'));
-app.get('/', (req, res) => {res.redirect('/app/index.html');});
-
 
 function authenticate(req, res, next) {
   var c = req.cookies;
@@ -77,130 +66,92 @@ function authenticate(req, res, next) {
   }
 }
 
+app.post('/post/login', (req, res) => {
+  User.find({username: req.body.username, password: req.body.password})
+  .exec( function (err, results) {
+    if (err || results.length == 0) { 
+      return res.end('failed to login');
+    } else {
+      sessions[req.body.username] = Date.now();
+      res.cookie("login", JSON.stringify({username: req.body.username}), {maxAge: 120000});
+      res.end('LOGIN');
+    }
+  });
+});
+
+app.use('/app/*', authenticate);
+
+// Set up routes
+app.use(express.static('public_html'));
+app.get('/', (req, res) => {res.redirect('/app/index.html');});
+
 // CRUD
-app.get('/get/users', function(req, res) {
-  UserModel.
-  find()
-  .exec(function(err, data) {
-    if (err) {console.log(err); return;}
-    res.end(JSON.stringify(data));
-  });
-});
-
-app.get('/get/items', function(req, res) {
-  ItemModel.
-  find()
-  .exec(function(err, data) {
-    if (err) {console.log(err); return;}
-    res.end(JSON.stringify(data));
-  });
-});
-
-app.get('/get/users/:keyword', function(req, res) {
-  UserModel.
-  find({username: {$regex: `.*${req.params.keyword}.*`}})
-  .exec(function(err, data) {
-    if (err) {console.log(err); return;}
-    res.end(JSON.stringify(data));
-  });
-});
-
-app.get('/get/items/:keyword', function(req, res) {
-  ItemModel.
-  find({description: {$regex: `.*${req.params.keyword}.*`}})
-  .exec(function(err, data) {
-    if (err) {console.log(err); return;}
-    res.end(JSON.stringify(data));
-  });
-});
-
-app.get('/get/listings/:username', function(req, res) {
-  UserModel.
-  findOne({username: req.params.username})
-  .exec(function(err, data) {
-    if (err) {console.log(err); return;}
-    ItemModel.
-    find({_id: {$in: data.listings}})
-    .exec(function(err, data) {
-      if (err) {console.log(err); return;}
-      res.end(JSON.stringify(data));
-    });
-  });
-});
-
-app.get('/get/purchases/:username', function(req, res) {
-  UserModel.
-  findOne({username: req.params.username})
-  .exec(function(err, data) {
-    if (err) {console.log(err); return;}
-    ItemModel.
-    find({_id: {$in: data.purchases}})
-    .exec(function(err, data) {
-      if (err) {console.log(err); return;}
-      res.end(JSON.stringify(data));
-    });
-  });
-});
-
-app.post('/purchase', function(req, res) {
-  UserModel.updateMany(
-    {username: req.body.username}, 
-    {$push: {purchases: req.body.itemId}},
-    function(err, data) {
-      if (err) {console.log(err); return;}
+// Create
+app.post('/post/signup', function(req, res) {
+  User.find({username: req.body.username})
+  .exec(function (err, results) {
+    if (err || results.length == 0) { 
+      User.create({
+        username: req.body.username,
+        password: req.body.password,
+        dms: {},
+      });
+      res.end('OK');
+    } else {
+      res.status(409).send({error: 'Username already taken.'});
     }
-  );
-  ItemModel.updateMany(
-    {_id: req.body.itemId}, 
-    {$set: {status: "SOLD"}},
-    function(err, data) {
-      if (err) {console.log(err); return;}
-    }
-  );
-  res.end("SUCCESS")
-});
-
-app.post('/add/user', function(req, res) {
-  UserModel.create({
-    username: req.body.username,
-    password: req.body.password,
-    listings: [],
-    purchases: [],
   });
-  res.end('SUCCESS');
 });
 
-app.post('/login', (req, res) => {
-  UserModel.find({username: req.body.username, password: req.body.password})
-    .exec( function (err, results) {
-      if (err || results.length == 0) { 
-        return res.end('failed to login');
-      } else {
-        sessions[req.body.username] = Date.now();
-        res.cookie("login", JSON.stringify({username: req.body.username}), {maxAge: 120000});
-        res.end('LOGIN');
-      }
+app.post('/post/post', function(req, res) {
+  User.findOne({username: req.body.poster})
+  .exec(function (err, user) {
+    if (err) {console.error(err); return res.status(500).send(err);}
+    Post.create({
+      title: req.body.title,
+      content: req.body.content,
+      poster: user._id,
+      reply: undefined,
+      likes: [],
+      timestamp: Date,
     });
+    res.end('OK');
+  });
 });
 
-app.post('/add/item/:username', function(req, res) {
-  item = ItemModel.create({
-    title: req.body.title,
-    description: req.body.description,
-    image: req.body.image,
-    price: req.body.price,
-    status: req.body.status,
-  }, function (err, data) {
-    if (err) {console.log(err); return;}
-    UserModel.updateMany(
-      {username: req.params.username}, 
-      {$push: {listings: data._id}},
-      function(err, data) {
-        if (err) {console.log(err); return;}
-      }
-    );
+app.post('/post/reply', function(req, res) {
+  User.findOne({username: req.body.poster})
+  .exec(function (err, user) {
+    if (err) {console.error(err); return res.status(500).send(err);}
+    Post.create({
+      title: req.body.title,
+      content: req.body.content,
+      poster: user._id,
+      // This is bad if someone *tries* to break it, but we shoudln't need to validate parent.
+      reply: mongoose.Types.ObjectId(req.body.parent),  
+      likes: [],
+      timestamp: Date.now(),
+    });
+    res.end('OK');
   });
-  res.end('OK');
+});
+
+app.post('/post/chat', function(req, res) {
+  User.findOne({username: req.body.from})
+  .exec(function (err, fromUser) {
+    if (err) {console.error(err); return res.status(500).send(err);}
+    User.findOne({username: req.body.to})
+    .exec(function (err, toUser) {
+      if (err) {console.error(err); return res.status(500).send(err);}
+      Message.create({
+        content: req.body.content,
+        poster: fromUser._id,
+        receiver: toUser._id,
+        timestamp: Date.now(),
+      });
+      res.end('OK');
+    });
+  });
 });
 
 app.post('/upload', upload.single('photo'), (req, res) => {
@@ -208,6 +159,96 @@ app.post('/upload', upload.single('photo'), (req, res) => {
     else throw 'error';
 });
 
-app.listen(port, () => 
-  console.log(`App listening at port ${port}`)
-);
+
+// Read
+app.get('/get/username/:userId', function(req, res) {
+  User.findOne({_id: req.params.userId})
+  .exec(function(err, user) {
+    if (err) {console.error(err); return res.status(500).send(err);}
+    res.send(user.username);
+  });
+});
+
+app.get('/get/feed/:username', function(req, res) {
+  User.findOne({username: req.params.username})
+  .exec(function(err, user) {
+    if (err) {console.error(err); return res.status(500).send(err);}
+    User.find({_id: {$in: user.following}})
+    .exec(function(err, followees) {
+      if (err) {console.error(err); return res.status(500).send(err);}
+      Post.find({poster: {$in: followees.map(u => u._id)}})
+      .exec(function(err, posts) {
+        if (err) {console.error(err); return res.status(500).send(err);} 
+        res.send(posts);
+      });
+    });
+  });
+});
+
+app.get('/get/replies/:postId', function(req, res) {
+  Post.findOne({_id: req.params.postId})
+  .exec(function(err, parent) {
+    if (err) {console.error(err); return res.status(500).send(err);}
+    Post.find({parent: parent._id})
+    .exec(function(err, replies) {
+      if (err) {console.error(err); return res.status(500).send(err);}
+      res.send(replies);
+    });
+  });
+});
+
+app.get('/get/dms/:user1/:user2', function(req, res) {
+  User.findOne({username: req.params.user1})
+  .exec(function(err, user1) {
+    if (err) {console.error(err); return res.status(500).send(err);}
+    User.findOne({username: req.params.user2})
+    .exec(function(err, user2) {
+      if (err) {console.error(err); return res.status(500).send(err);}
+      Message.find({$or: [{poster: user1._id, receiver: user2._id},
+                          {poster: user2._id, receiver: user1._id}]})
+      .exec(function(err, messages) {
+        if (err) {console.error(err); return res.status(500).send(err);} 
+        res.send(messages);
+      });
+    });
+  });
+});
+
+
+// Update
+app.post('/post/follow', function(req, res) {
+  User.findOne({username: req.body.follower})
+  .exec(function(err, user) {
+    if (err) {console.error(err); return res.status(500).send(err);}
+    User.updateOne(
+      {username: req.body.followee}, 
+      {$push: {following: user._id}},
+      function(err, data) {
+        if (err) {console.error(err); return res.status(500).send(err);}
+        res.end("OK");
+      }
+    );
+  });
+});
+
+app.post('/post/like', function(req, res) {
+  User.findOne({username: req.body.username})
+  .exec(function(err, user) {
+    if (err) {console.error(err); return res.status(500).send(err);}
+    Post.updateOne(
+      {_id: mongoose.Types.ObjectId(req.body.post)}, 
+      {$push: {likes: user._id}},
+      function(err, data) {
+        if (err) {console.error(err); return res.status(500).send(err);}
+        res.end("OK");
+      }
+    );
+  });
+});
+
+
+// Delete
+
+
+// Start Server
+app.listen(port, () => console.log(`App listening at port ${port}`));

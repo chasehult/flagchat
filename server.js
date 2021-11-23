@@ -62,7 +62,7 @@ function authenticate(req, res, next) {
     sessions[JSON.parse(c.login).username] = Date.now();
     next();
   } else {
-    res.redirect('/login/index.html');
+    res.redirect('/login/login.html');
   }
 }
 

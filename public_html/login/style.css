@@ -51,6 +51,11 @@ h1 {
     border: none;
 }
 
+#p {
+    color: white;
+    text-align: center;
+}
+
 /*Login Page*/
 
 
@@ -83,7 +88,7 @@ h1 {
 }
 
 #signup .box {
-    margin-top: 15px;
+    margin-top: 10px;
     color: #053C5E;
 }
 

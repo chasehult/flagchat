@@ -52,8 +52,10 @@ h1 {
 }
 
 #p {
+    margin: 5px auto 0px auto;
     color: white;
     text-align: center;
+    font-size: 15px;
 }
 
 /*Login Page*/

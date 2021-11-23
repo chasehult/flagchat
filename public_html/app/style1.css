@@ -17,7 +17,7 @@ body {
     background-color: aquamarine;
 }
 
-#icon {
+#info #icon {
     position: relative;
     left: 50%;
     top: 175px;

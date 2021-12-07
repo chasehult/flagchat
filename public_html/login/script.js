@@ -21,5 +21,8 @@ function signup() {
     password: $('#signuppass').val(),
   }, function(data, status) {
     alert(data);
+    if (data == 'OK') {
+          window.location.href = '/login/login.html';
+        }
   });
 }

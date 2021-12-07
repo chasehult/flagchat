@@ -112,7 +112,7 @@ app.post('/post/post', function(req, res) {
       poster: user._id,
       reply: undefined,
       likes: [],
-      timestamp: Date,
+      timestamp: Date.now(),
     });
     res.end('OK');
   });
@@ -171,7 +171,7 @@ app.get('/get/feed/:username', function(req, res) {
   User.findOne({username: req.params.username})
   .exec(function(err, user) {
     if (err) {console.error(err); return res.status(500).send(err);}
-    User.find({_id: {$in: user.following}})
+    User.find({$or: [{_id: {$in: user.following}}, {username: req.params.username}]})
     .exec(function(err, followees) {
       if (err) {console.error(err); return res.status(500).send(err);}
       Post.find({poster: {$in: followees.map(u => u._id)}})

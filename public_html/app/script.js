@@ -12,25 +12,33 @@ cookies = document.cookie.split('; ').reduce((prev, current) => {
 
 if ('login' in cookies) {
   username = JSON.parse(decodeURIComponent(cookies.login)).username;
-  $('#un').text(username);
 } else {
   alert("Session Expired.")
-  window.location.href = '/login/index.html';
+  window.location.href = window.location.origin + '/login/index.html';
 }
 
 
-function post() {
+function init() {
+  $('.unfield').text(username);
+  getFeed();
+}
+
+function sendPost() {
   $.post(window.location.origin + '/post/post', {
     poster: username,
     content: $('#newPostContent').val(),
   }, (data, status) => {
     alert(data);
+    window.location.reload();
   });
 }
 
 function getFeed() {
-  $.get('/get/feed/' + username, (data, status) => {
-    posts = JSON.parse(data);
+  $.get('/get/feed/' + username, (posts, status) => {
+    posts.sort((a, b) => {return new Date(b['timestamp']) - new Date(a['timestamp']);});
     console.log(posts);
+    for (post of posts) {
+      $('#posts').append("<p>" + post['content'] + "</p>")
+    }
   })
 }

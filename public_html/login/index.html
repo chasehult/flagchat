@@ -5,6 +5,8 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="style.css">
     <title>Flagchat</title>
+    <script src="jquery.js"></script>
+    <script src="script.js"></script>
     <link rel="shortcut icon" type="image/jpg" href="../app/imgs/logo.png">
 </head>
 <body id="loginPage">
@@ -15,9 +17,9 @@
         <br />
         <input id="logPassword" name="logPassword" type="password" class="box" value="Password">
         <br />
-        <input id="loginButton" type="button" value="login" class="submit" />
+        <input onclick="login()" id="loginButton" type="button" value="login" class="submit" />
 
-        <p>New User? Sign up.</p>
+        <p>New User? <a href="/login/signup.html">Sign up.</a></p>
     </div>
 
 </body>

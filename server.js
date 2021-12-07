@@ -9,6 +9,7 @@ const parser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const multer = require('multer');
 const upload = multer({dest: __dirname + '/public_html/uploads/images'});
+const md5 = require("md5");
 
 const app = express();
 app.use(parser.json());
@@ -24,11 +25,10 @@ mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection 
 var ObjectId = mongoose.Schema.ObjectId
 var User = mongoose.model('User', new mongoose.Schema({
   username: String,
-  password: String,  // Salted MD5 hash
+  password: String,  // Salted MD5 hash (md5(username+'&&&'+password))
   following: [ObjectId],  // User
 }));
 var Post = mongoose.model('Post', new mongoose.Schema({
-  title: String,
   content: String,
   poster: ObjectId,  // User
   reply: ObjectId,  // Post (or NULL)
@@ -67,10 +67,10 @@ function authenticate(req, res, next) {
 }
 
 app.post('/post/login', (req, res) => {
-  User.find({username: req.body.username, password: req.body.password})
+  User.find({username: req.body.username, password: md5(req.body.username+'&&&'+req.body.password)})
   .exec( function (err, results) {
     if (err || results.length == 0) { 
-      return res.end('failed to login');
+      return res.end('Failed to login');
     } else {
       sessions[req.body.username] = Date.now();
       res.cookie("login", JSON.stringify({username: req.body.username}), {maxAge: 120000});
@@ -93,7 +93,7 @@ app.post('/post/signup', function(req, res) {
     if (err || results.length == 0) { 
       User.create({
         username: req.body.username,
-        password: req.body.password,
+        password: md5(req.body.username+'&&&'+req.body.password),
         dms: {},
       });
       res.end('OK');
@@ -108,7 +108,6 @@ app.post('/post/post', function(req, res) {
   .exec(function (err, user) {
     if (err) {console.error(err); return res.status(500).send(err);}
     Post.create({
-      title: req.body.title,
       content: req.body.content,
       poster: user._id,
       reply: undefined,
@@ -124,7 +123,6 @@ app.post('/post/reply', function(req, res) {
   .exec(function (err, user) {
     if (err) {console.error(err); return res.status(500).send(err);}
     Post.create({
-      title: req.body.title,
       content: req.body.content,
       poster: user._id,
       // This is bad if someone *tries* to break it, but we shoudln't need to validate parent.

@@ -4,7 +4,9 @@
 <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="style.css">
-    <title>Flagchat</title>
+    <title>FlagChat Signup</title>
+    <script src="jquery.js"></script>
+    <script src="script.js"></script>
     <link rel="shortcut icon" type="image/jpg" href="../app/imgs/logo.png">
 </head>
 <body id="signupPage">
@@ -12,13 +14,13 @@
 
     <div id="signup">
         <h1 id="signupHeader">Create a new account!</h1>
-        <input id="signupuser" type="text" class="box" value="Username">
+        <input id="signupuser" type="text" class="box" placeholder="Username">
         <br />
-        <input id="signuppass" type="password" class="box" value="Password">
+        <input id="signuppass" type="password" class="box" placeholder="Password">
         <br />
-        <input id="signupButton" type="button" value="sign up" class="submit" />
+        <input onclick="signup()" id="signupButton" type="button" value="Sign Up" class="submit" />
 
-        <p>Have an account? Login.</p>
+        <p>Have an account? <a href="/login/login.html">Login.</a></p>
     </div>
 </body>
 </html>

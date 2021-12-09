@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="style1.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
     <title>Messages</title>
     <script src="jquery.js"></script>
     <script src="script.js"></script>
@@ -12,44 +12,43 @@
 <body>
 
     <div id="header">
-        <h1 id="flagchat">Flagchat</h1>
-        <img id="logo" src="imgs/logo.png" />
+        <h1 id="flagchat" onclick="window.location.href = window.location.origin + '/app/index.html';">Flagchat</h1>
+        <img id="logo" src="imgs/logo.png" onclick="window.location.href = window.location.origin + '/app/index.html';" />
     </div>
 
     <div id="nonheader">
 
         <div id="conversations">
-            <p>Start a conversation: </p>
-            <div id="startinput">
-                <label for="recipient">Who do you want to send a message to?</label>
-                <input type="text" id="recipient" name="recipient">
-                <textarea id="mInput" cols="85" rows="2" placeholder="write message..."></textarea>
-                <input id="send" type="button" value="Send Message" onclick="startConversation()"/>
-            </div>
+            <p>Open conversations: </p>
+            <!-- All recipients go here -->
         </div>
 
         <div id="content">
-            <div id="chatlog">
-                Messages go here.
+            <div id="chatlog" placeholder="Messages go here.">
+                
             </div>
 
             <div id="input">
-                <textarea id="mInput" cols="85" rows="2">write message...</textarea>
-                <input id="send" type="button" value="Send Message" />
+                <div id="getrecipient">
+                    <label for="recipient">Who do you want to send a message to?</label>
+                    <input type="text" id="recipient" name="recipient" placeholder="username">
+                </div>
+                <textarea id="mInput" cols="85" rows="2" placeholder="Write a message..."></textarea>
+                <input id="send" type="button" value="Send Message" onclick="sendMessage()" />
             </div>
         </div>
 
         <div id="sidebar">
             <textarea id="newPostContent" placeholder="What's up?" cols="38" rows="8"></textarea>
-            
+
             <input onclick="sendPost()" type="button" id="submitPost" value="Create Post" class="submit" />
 
-            <div id="chat" >
+            <div id="chat" onclick="window.location.href = window.location.origin + '/app/chat.html';">
                 <img id="inboxlogo" src="imgs/inboxicon.png" />
                 <p>Chat</p>
             </div>
 
-            <div id="profile">
+            <div id="profile" onclick="window.location.href = window.location.origin + '/app/profile.html';">
                 <img id="icon" src="imgs/defaulticon.png" />
                 <p>Profile</p>
             </div>

@@ -59,6 +59,22 @@ h1 {
     font-size: 15px;
 }
 
+.links {
+    position: absolute;
+    color: white;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    bottom: 4%;
+}
+
+.links p {
+    display: inline;
+}
+
+.links a {
+    color: white;
+}
+
 /*Login Page*/
 
 

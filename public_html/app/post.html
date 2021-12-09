@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Profile</title>
+    <link rel="shortcut icon" type="image/jpg" href="imgs/logo.png">
+</head>
+<body>
+    <div id="header">
+        <h1 id="flagchat" onclick="window.location.href = window.location.origin + '/app/index.html';">Flagchat</h1>
+        <img id="logo" src="imgs/logo.png" />
+    </div>
+
+    <div id="nonheader">
+        <div id="posts">
+            <!-- Post and replies goes here  -->
+        </div>
+
+        <div id="sidebar">
+            <textarea id="newPostContent" placeholder="What's up?" cols="38" rows="8"></textarea>
+
+            <input onclick="sendPost()" type="button" id="submitPost" value="Create Post" class="submit" />
+
+            <div id="chat" onclick="window.location.href = window.location.origin + '/app/chat.html';">
+                <img id="inboxlogo" src="imgs/inboxicon.png" />
+                <p>Chat</p>
+            </div>
+
+            <div id="profile" onclick="window.location.href = window.location.origin + '/app/profile.html';">
+                <img id="icon" src="imgs/defaulticon.png" />
+                <p>Profile</p>
+            </div>
+        </div>
+    </div>
+
+    <script>init()</script>
+</body>
+</html>

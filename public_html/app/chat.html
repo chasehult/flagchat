@@ -3,8 +3,15 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
+<<<<<<< Updated upstream
     <link rel="stylesheet" type="text/css" href="style1.css">
     <title>Messages</title>
+=======
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Messages</title>
+    <script src="jquery.js"></script>
+    <script src="script.js"></script>
+>>>>>>> Stashed changes
     <link rel="shortcut icon" type="image/jpg" href="imgs/logo.png">
 </head>
 <body>
@@ -32,9 +39,16 @@
         </div>
 
         <div id="sidebar">
+<<<<<<< Updated upstream
             <textarea id="newPostContent" cols="38" rows="8">what's up?</textarea>
             <img id="postImage" src="imgs/photo.png" />
             <input type="button" id="submitPost" value="create post" class="submit" />
+=======
+
+            <textarea id="newPostContent" placeholder="What's up?" cols="38" rows="8"></textarea>
+            <img id="postImage" src="imgs/photo.png" />
+            <input onclick="sendPost()" type="button" id="submitPost" value="create post" class="submit" />
+>>>>>>> Stashed changes
 
             <div id="chat">
                 <img id="inboxlogo" src="imgs/inboxicon.png" />

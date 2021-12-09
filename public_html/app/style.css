@@ -1,0 +1,169 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    font-family: 'Century Gothic';
+}
+
+body {
+    position: absolute;
+    height: 100vh;
+}
+
+#header {
+    color: white;
+    top: 0vh;
+    height: 15vh;
+    width: 100vw;
+    background-color: #003459;
+}
+
+#nonheader {
+    position: absolute;
+    top: 15vh;
+    width: 100vw;
+    height: 85%;
+    background: linear-gradient(#bfdbf7, white);
+}
+
+#header, #info, #profilecontent, #sidebar, #flagchat, #logo, #sidebar textarea, #postImage, #submitPost,
+#chat, #profile, #conversations, #content {
+    position: absolute;
+}
+
+#info, #profilecontent, #sidebar, #conversations, #content {
+    height: 100%;
+}
+
+#info, #conversations {
+    left: 0vw;
+    width: 25vw;
+    background-color: #007ea7;
+    color: white;
+}
+
+#profilecontent, #content {
+    left: 25vw;
+    width: 50vw;
+    overflow-y: scroll;
+}
+
+#sidebar {
+    overflow-y: hidden;
+    left: 75vw;
+    width: 25vw;
+    background-color: #db162f;
+}
+
+#conversations {
+    overflow-y: scroll;
+}
+
+#submitPost, #send {
+    font-size: 15px;
+    color: #003459;
+    background-color: white;
+    border-style: none;
+    border-radius: 3px;
+}
+
+#avatar {
+    position: relative;
+    left: 50%;
+    top: 175px;
+    transform: translateX(-50%);
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+}
+
+#username {
+    top: 175px;
+    margin-top: 20px;
+    text-align: center;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#displayname {
+    top: 175px;
+    text-align: center;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#flagchat, #logo {
+    display: inline;
+}
+
+#sidebar textarea {
+    top: 20%;
+    height: 22%;
+    width: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#postImage {
+    top: 33%;
+    left: 5%;
+    width: 30px;
+    filter: brightness(0) invert(1);
+}
+
+#submitPost {
+    top: 33%;
+    right: 5%;
+}
+
+#chat, #profile {
+    text-align: center;
+    color: white;
+    font-size: 25px;
+}
+
+#chat {
+    top: 55%;
+}
+
+#profile {
+    top: 72%;
+}
+
+#inboxlogo, #icon {
+    width: 15%;
+    margin-bottom: 5px;
+    filter: brightness(0) invert(1);
+}
+
+#logo {
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5%;
+    filter: brightness(0) invert(1);
+}
+
+#flagchat {
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 300%;
+    left: 5%;
+}
+
+#input {
+    position: fixed;
+    bottom: 0%;
+    margin: 0px 0px 2% 1%;
+}
+
+    #input textarea {
+        display: block;
+        overflow-y: scroll;
+        margin-bottom: 2%;
+    }
+
+#send {
+    position: absolute;
+    right: 0px;
+}

@@ -36,9 +36,38 @@ function sendPost() {
 function getFeed() {
   $.get('/get/feed/' + username, (posts, status) => {
     posts.sort((a, b) => {return new Date(b['timestamp']) - new Date(a['timestamp']);});
-    console.log(posts);
-    for (post of posts) {
-      $('#posts').append("<p>" + post['content'] + "</p>")
-    }
+      getPosts(posts);
   })
+<<<<<<< Updated upstream
 }
+=======
+}
+
+function getPosts(posts) {
+    resStr = '';
+
+    for (post of posts) {
+        let r = posts[post];
+        resStr += '<div class="post"><b>' + r.poster + '</b><p>' + r.content + '</p><p>'
+            + r.likes.length + ' likes</p></div>';
+    }
+
+    $('#posts').html(resStr);
+    $('#posts').scrollTop = $('#posts').scrollHeight;
+}
+
+function getMessages(messages) {
+    resStr = '';
+
+    for (message of messages) {
+        let r = messages[message];
+        resStr += '<div class="message"><b>' + r.poster + '</b><p>' + r.content + '</p></div>';
+    }
+
+    $('#chatlog').html(resStr);
+    $('#chatlog').scrollTop = $('#chatlog').scrollHeight;
+}
+
+//<div id="replyinput">< textarea id="rInput" cols="75" rows="1" >' +
+//    'write message...</div>
+>>>>>>> Stashed changes

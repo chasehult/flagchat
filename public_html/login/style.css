@@ -6,7 +6,7 @@
 
 body {
     background: url("imgs/apartments.jpg") no-repeat center center fixed;
-    overflow:hidden;
+    overflow: hidden;
 }
 
 #login, #signup {
@@ -38,6 +38,7 @@ h1 {
     font-size: 30px;
     width: 100%;
 }
+
 .submit {
     display: block;
     height: 40px;
@@ -70,13 +71,13 @@ p, a {
     background-color: #053C5E;
 }
 
-#login h1 {
-    font-size: 50px;
-}
+    #login h1 {
+        font-size: 50px;
+    }
 
-#login .box {
-    color: #c1645d;
-}
+    #login .box {
+        color: #c1645d;
+    }
 
 #loginButton {
     color: #053C5E;
@@ -90,13 +91,19 @@ p, a {
     background-color: #c1645d;
 }
 
-#signup h1 {
-    font-size: 35px;
-}
+    #signup h1 {
+        font-size: 35px;
+    }
 
+<<<<<<< Updated upstream
 #signup .box {
     color: #053C5E;
 }
+=======
+    #signup .box {
+        color: #053C5E;
+    }
+>>>>>>> Stashed changes
 
 #signupButton {
     color: #c1645d;

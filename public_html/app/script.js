@@ -33,6 +33,7 @@ function sendPost() {
   });
 }
 
+
 function getFeed() {
   $.get('/get/feed/' + username, (posts, status) => {
     posts.sort((a, b) => {return new Date(b['timestamp']) - new Date(a['timestamp']);});
@@ -72,13 +73,10 @@ function getMessages(messages) {
     resStr = '';
 
     for (message of messages) {
-        let r = messages[message];
+        let r = messages;
         resStr += '<div class="message"><b>' + r.poster + '</b><p>' + r.content + '</p></div>';
     }
 
     $('#chatlog').html(resStr);
     $('#chatlog').scrollTop = $('#chatlog').scrollHeight;
 }
-
-//<div id="replyinput">< textarea id="rInput" cols="75" rows="1" >' +
-//    'write message...</div>

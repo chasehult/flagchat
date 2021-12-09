@@ -34,7 +34,7 @@ h1 {
     position: relative;
     margin: auto;
     margin-top: 20px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     font-size: 30px;
     width: 100%;
 }
@@ -46,22 +46,17 @@ h1 {
     font-size: 20px;
     font-weight: bold;
     color: #053C5E;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0px auto 0px auto;
     border-radius: 15px;
     background-color: white;
     border: none;
 }
 
-p, a {
-    display: inline;
+#p {
+    margin: 5px auto 0px auto;
     color: white;
-}
-
-.links {
-    position: relative;
-    margin-top: 5px;
     text-align: center;
+    font-size: 15px;
 }
 
 /*Login Page*/
@@ -82,7 +77,7 @@ p, a {
 #loginButton {
     color: #053C5E;
     width: 20%;
-    margin-top: 25px;
+    margin-top: 15px;
 }
 /*End Login*/
 
@@ -96,13 +91,14 @@ p, a {
 }
 
 #signup .box {
+    margin-top: 10px;
     color: #053C5E;
 }
 
 #signupButton {
     color: #c1645d;
     width: 30%;
-    margin-top: 15px;
+    margin-top: 10px;
 }
 
 /*End Sign Up*/

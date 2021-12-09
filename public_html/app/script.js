@@ -33,6 +33,7 @@ function sendPost() {
   });
 }
 
+
 function getFeed() {
   $.get('/get/feed/' + username, (posts, status) => {
     posts.sort((a, b) => {return new Date(b['timestamp']) - new Date(a['timestamp']);});
@@ -41,4 +42,33 @@ function getFeed() {
       $('#posts').append("<p>" + post['content'] + "</p>")
     }
   })
+}
+
+function getPosts(posts) {
+    posts = JSON.parse(posts);
+    resStr = '';
+
+    for (post of posts) {
+        let r = posts[i];
+        resStr += '<div class="post"><b>' + r.poster + '</b><p>' + r.content + '</p><p>'
+            + r.likes.length + ' likes</p><div id="replyinput">< textarea id = "rInput" cols = "75" rows = "1" >' +
+            'write message...</textarea ><input id="sendreply" type="button" value="Send Message"' +
+            'onclick="sendReply();" /></div ></div>';
+    }
+
+    $('#posts').html(resStr);
+    $('#posts').scrollTop = $('#posts').scrollHeight;
+}
+
+function getMessages(messages) {
+    messages = JSON.parse(messages);
+    resStr = '';
+
+    for (message of messages) {
+        let r = messages[i];
+        resStr += '<div class="message"><b>' + r.poster + '</b><p>' + r.content + '</p></div>';
+    }
+
+    $('#chatlog').html(resStr);
+    $('#chatlog').scrollTop = $('#chatlog').scrollHeight;
 }

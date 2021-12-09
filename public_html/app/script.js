@@ -66,7 +66,7 @@ function sendMessage() {
 function getFeed() {
   $.get('/get/feed/' + username, (posts, status) => {
     posts.sort((a, b) => {return new Date(b['timestamp']) - new Date(a['timestamp']);});
-      getPosts(posts);
+      getPosts(posts, '#posts');
   })
 }
 
@@ -85,8 +85,9 @@ function getPoster(user_id) {
     return un;
 }
 
-function getPosts(posts) {
+function getPosts(posts, element) {
     resStr = '';
+    element = '\'' + element + '\'';
 
     for (post of posts) {
         let r = post;
@@ -94,8 +95,15 @@ function getPosts(posts) {
             + r.likes.length + ' likes</b></div>';
     }
 
-    $('#posts').html(resStr);
-    $('#posts').scrollTop = $('#posts').scrollHeight;
+    $(element).html(resStr);
+    $(element).scrollTop = $(element).scrollHeight;
+}
+
+function getProfilePosts() {
+    $.get('/get/posts/:username', (posts, status) => {
+        posts.sort((a, b) => { return new Date(b['timestamp']) - new Date(a['timestamp']); });
+        getPosts(posts, '#profilecontent');
+    })
 }
 
 function getMessages(messages) {

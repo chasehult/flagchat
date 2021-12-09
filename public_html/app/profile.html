@@ -5,73 +5,42 @@
         <meta charset="utf-8" />
         <link rel="stylesheet" type="text/css" href="style1.css">
         <title>Profile</title>
-        <script src="jquery.js"></script>
-        <script src="script.js"></script>
         <link rel="shortcut icon" type="image/jpg" href="imgs/logo.png">
     </head>
     <body>
-        <div id="info">
-            <img id="icon" src="imgs/defaulticon.jpg" />
-            <h1 class="unfield"></h1>
-            <h2 id="displayname">name</h2>
-        </div>
-        <div id="profilecontent">
-            <div id="posts">
-                <!-- posts go here -->
-            </div>
-        </div>
-
-        <div id="navigation">
-            <div id="header">
-                <h1 id="flagchat">Flagchat</h1>
-                <h1 class="unfield"></h1>
-
-                <img id="logo" src="imgs/logo.png" />
-            </div>
-
-            <div id="newPost">
-                <textarea id="newPostContent" placeholder="What's up?" cols="38" rows="8"></textarea>
-                <img id="postImage" src="imgs/photo.png" />
-                <input onclick="post()" type="button" id="submitPost" value="create post" class="submit" />
-            </div>
-
-            <div id="links">
-                <span id="chat">
-                    <img id="inboxlogo" src="imgs/inboxicon.png" />
-
-                </span>
-
-                <span id="profile">
-                    <img id="icon" src="imgs/defaulticon.png" />
-
-                </span>
-            </div>
-        </div>
-
-
-
-
-        <!--<div id="sidebar">
         <div id="header">
             <h1 id="flagchat">Flagchat</h1>
             <img id="logo" src="imgs/logo.png" />
         </div>
 
-        <div id="navigation">
-            <textarea id="newPostContent" cols="38" rows="8">what's up?</textarea>
-            <img id="postImage" src="imgs/photo.png" />
-            <input type="button" id="submitPost" value="create post" class="submit" />
-
-            <div id="chat">
-                <img id="inboxlogo" src="imgs/inboxicon.png" />
-                <p>Chat</p>
+        <div id="nonheader">
+            <div id="info">
+                <img id="avatar" src="imgs/defaulticon.jpg" />
+                <h1 id="username">@user</h1>
+                <h2 id="displayname">displayname</h2>
             </div>
 
-            <div id="profile">
-                <img id="icon" src="imgs/defaulticon.png" />
-                <p>Profile</p>
+            <div id="profilecontent">
+                <div id="posts">
+                     posts go here 
+                </div>
+            </div>
+
+            <div id="sidebar">
+                <textarea id="newPostContent" cols="38" rows="8">what's up?</textarea>
+                <img id="postImage" src="imgs/photo.png" />
+                <input type="button" id="submitPost" value="create post" class="submit" />
+
+                <div id="chat">
+                    <img id="inboxlogo" src="imgs/inboxicon.png" />
+                    <p>Chat</p>
+                </div>
+
+                <div id="profile">
+                    <img id="icon" src="imgs/defaulticon.png" />
+                    <p>Profile</p>
+                </div>
             </div>
         </div>
-    </div>-->
     </body>
 </html>

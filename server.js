@@ -73,7 +73,7 @@ app.post('/post/login', (req, res) => {
       return res.end('Failed to login');
     } else {
       sessions[req.body.username] = Date.now();
-      res.cookie("login", JSON.stringify({username: req.body.username}), {maxAge: 120000});
+      res.cookie("login", JSON.stringify({username: req.body.username}), {maxAge: 10 * 60 * 1000});
       res.end('LOGIN');
     }
   });

@@ -3,21 +3,23 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <link rel="stylesheet" type="text/css" href="style1.css">
+        <link rel="stylesheet" type="text/css" href="style.css">
         <title>Profile</title>
         <script src="jquery.js"></script>
         <script src="script.js"></script>
         <link rel="shortcut icon" type="image/jpg" href="imgs/logo.png">
     </head>
     <body>
-        <div id="info">
-            <img id="icon" src="imgs/defaulticon.jpg" />
+        <div id="header">
+            <h1 id="flagchat">Flagchat</h1>
             <h1 class="unfield"></h1>
-            <h2 id="displayname">name</h2>
+            <img id="logo" src="imgs/logo.png" />
         </div>
-        <div id="profilecontent">
-            <div id="posts">
-                <!-- posts go here -->
+
+        <div id="nonheader">
+            <div id="info">
+                <img id="avatar" src="imgs/defaulticon.jpg" />
+                <h1 class="unfield"></h1>
             </div>
         </div>
 
@@ -25,18 +27,18 @@
             <div id="header">
                 <h1 id="flagchat">Flagchat</h1>
                 <h1 class="unfield"></h1>
-
-                <img id="logo" src="imgs/logo.png" />
+            </div>
+            <div id="profilecontent">
+                <div id="posts">
+                    <!-- posts go here -->
+                </div>
             </div>
 
             <div id="newPost">
                 <textarea id="newPostContent" placeholder="What's up?" cols="38" rows="8"></textarea>
                 <img id="postImage" src="imgs/photo.png" />
-                <input onclick="post()" type="button" id="submitPost" value="create post" class="submit" />
-            </div>
-
-            <div id="links">
-                <span id="chat">
+                <input onclick="sendPost()" type="button" id="submitPost" value="Create Post" class="submit" />
+                <div id="chat">
                     <img id="inboxlogo" src="imgs/inboxicon.png" />
 
                 </span>
@@ -47,8 +49,6 @@
                 </span>
             </div>
         </div>
-
-
 
 
         <!--<div id="sidebar">

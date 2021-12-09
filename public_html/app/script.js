@@ -37,23 +37,32 @@ function sendPost() {
 function getFeed() {
   $.get('/get/feed/' + username, (posts, status) => {
     posts.sort((a, b) => {return new Date(b['timestamp']) - new Date(a['timestamp']);});
-    console.log(posts);
-    for (post of posts) {
-      $('#posts').append("<p>" + post['content'] + "</p>")
-    }
+      getPosts(posts);
   })
 }
 
+function getPoster(user_id) {
+    var un = '';
+
+    $.ajax({
+        url: '/get/username/' + user_id,
+        method: 'GET',
+        async: false,
+        success: function (username) {
+            un = username;
+        }
+    });
+
+    return un;
+}
+
 function getPosts(posts) {
-    posts = JSON.parse(posts);
     resStr = '';
 
     for (post of posts) {
-        let r = posts[i];
+        let r = post;
         resStr += '<div class="post"><b>' + r.poster + '</b><p>' + r.content + '</p><p>'
-            + r.likes.length + ' likes</p><div id="replyinput">< textarea id = "rInput" cols = "75" rows = "1" >' +
-            'write message...</textarea ><input id="sendreply" type="button" value="Send Message"' +
-            'onclick="sendReply();" /></div ></div>';
+            + r.likes.length + ' likes</p></div>';
     }
 
     $('#posts').html(resStr);
@@ -61,11 +70,10 @@ function getPosts(posts) {
 }
 
 function getMessages(messages) {
-    messages = JSON.parse(messages);
     resStr = '';
 
     for (message of messages) {
-        let r = messages[i];
+        let r = messages;
         resStr += '<div class="message"><b>' + r.poster + '</b><p>' + r.content + '</p></div>';
     }
 

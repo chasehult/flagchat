@@ -1,28 +1,42 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="style1.css">
-    <title>Home</title>
+    <title>Messages</title>
+    <script src="jquery.js"></script>
+    <script src="script.js"></script>
     <link rel="shortcut icon" type="image/jpg" href="imgs/logo.png">
 </head>
 <body>
+
     <div id="header">
         <h1 id="flagchat">Flagchat</h1>
-        <h1 class="unfield"></h1>
         <img id="logo" src="imgs/logo.png" />
     </div>
 
     <div id="nonheader">
-        <div id="posts">
-            <!-- posts go here -->
+
+        <div id="conversations">
+            Different conversations go here.
+        </div>
+
+        <div id="content">
+            <div id="chatlog">
+                Messages go here.
+            </div>
+
+            <div id="input">
+                <textarea id="mInput" cols="85" rows="2">write message...</textarea>
+                <input id="send" type="button" value="Send Message" />
+            </div>
         </div>
 
         <div id="sidebar">
             <textarea id="newPostContent" placeholder="What's up?" cols="38" rows="8"></textarea>
             <img id="postImage" src="imgs/photo.png" />
-            <input onclick="sendPost()" type="button" id="submitPost" value="create post" class="submit" />
+            <input onclick="sendPost()" type="button" id="submitPost" value="Create Post" class="submit" />
 
             <div id="chat">
                 <img id="inboxlogo" src="imgs/inboxicon.png" />
@@ -35,7 +49,5 @@
             </div>
         </div>
     </div>
-
-    <script>init()</script>
 </body>
 </html>

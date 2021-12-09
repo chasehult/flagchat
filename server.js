@@ -49,7 +49,7 @@ function filterSessions() {
   for (x in sessions) {
     username = x;  // TODO: Find out if this is necessary?
     time = sessions[x];
-    if (time + 10 * 60 * 60 < now) {
+    if (time + 10 * 60 * 1000 < now) {
       delete sessions[username];
     }
   }

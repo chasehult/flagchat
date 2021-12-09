@@ -4,23 +4,27 @@
 <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="style.css">
-    <title>FlagChat Signup</title>
-    <script src="jquery.js"></script>
-    <script src="script.js"></script>
-    <link rel="shortcut icon" type="image/jpg" href="../app/imgs/logo.png">
+    <title>friendLY</title>
 </head>
 <body id="signupPage">
 
 
     <div id="signup">
         <h1 id="signupHeader">Create a new account!</h1>
-        <input id="signupuser" type="text" class="box" placeholder="Username">
+        <input id="signupuser" type="text" class="box" value="Username">
         <br />
-        <input id="signuppass" type="password" class="box" placeholder="Password">
+        <input id="signuppass" type="password" class="box" value="Password">
         <br />
-        <input onclick="signup()" id="signupButton" type="button" value="Sign Up" class="submit" />
+        <input id="signupButton" type="button" value="sign up" class="submit" />
 
-        <p>Have an account? <a href="/login/login.html">Login.</a></p>
+        <div id="alreadyuser" class="links">
+            <p>Already a user?</p>
+            <a href="login.html">Log in.</a>
+        </div>
+        <div id="alreadyuser" class="links">
+            <p>Already a user?</p>
+            <a href="/login/login.html">Log in.</a>
+        </div>
     </div>
 </body>
 </html>

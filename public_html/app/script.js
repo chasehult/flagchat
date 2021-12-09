@@ -87,7 +87,6 @@ function getPoster(user_id) {
 
 function getPosts(posts, element) {
     resStr = '';
-    element = '\'' + element + '\'';
 
     for (post of posts) {
         let r = post;

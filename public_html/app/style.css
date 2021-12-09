@@ -1,4 +1,4 @@
-﻿* {
+* {
     box-sizing: border-box;
     margin: 0;
     font-family: 'Century Gothic';
@@ -6,55 +6,21 @@
 
 body {
     height: 100vh;
-    background: #BFDBF7;
+    background: linear-gradient(#BFDBF7, white);
 }
 
-#info {
-    position: absolute;
+/*Index Page*/
+
+
+#posts {
+    position: fixed;
+    width: 65vw;
+    height: 100vh;
     left: 0px;
-    height: 100vh;
-    width: 25vw;
-    background-color: #BFDBF7;
-}
-
-#info #icon {
-    position: relative;
-    left: 50%;
-    top: 175px;
-    transform: translateX(-50%);
-    width: 220px;
-    height: 220px;
-    border-radius: 50%;
-}
-
-#username {
-    top: 175px;
-    margin-top: 20px;
-    text-align: center;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-#displayname {
-    top: 175px;
-    text-align: center;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-#profilecontent {
-    position: absolute;
-    left: 25vw;
-    height: 100vh;
-    width: 40vw;
-    background-color: aliceblue;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top: 40px;
     overflow-y: scroll;
-}
-
-#info {
-
 }
 
 #navigation {
@@ -105,20 +71,21 @@ body {
 #newPost {
     position: relative;
     height: 40vh;
+
 }
 
-    #newPost textarea {
-        display: block;
-        position: relative;
-        font-size: 20px;
-        margin: 0px auto 0px auto;
-        top: 20px;
-        padding: 15px 15px 30px 15px;
-        color: #00ABF1;
-        border-style: solid;
-        border-color: #00ABF1;
-        border-radius: 10px;
-    }
+#newPost textarea {
+    display: block;
+    position: relative;
+    font-size: 20px;
+    margin: 0px auto 0px auto;
+    top: 20px;
+    padding: 15px 15px 30px 15px;
+    color: #00ABF1;
+    border-style:solid;
+    border-color: #00ABF1;
+    border-radius: 10px;
+}
 
 #submitPost {
     position: absolute;
@@ -169,35 +136,16 @@ body {
     right: 7%;
 }
 
-/*#sidebar {
-    overflow-y: hidden;
-    position: absolute;
-    right: 0px;
-    height: 100vh;
-    width: 30vw;
-    background-color: aqua;
+/*End Index*/
 
-}
 
-#header {
-    position: relative;
-    height: 12%;
-    background-color: antiquewhite;
-}
-#logosection {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: blue;
-}
 
-#logo {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 80px;
-}
-#flagchat {
-    position: absolute;
-        margin: 0px auto 0px auto;
-}*/
+/*Profile Page*/
+
+/*End Profile*/
+
+
+
+/*Chat Page*/
+
+/*End Chat*/

@@ -183,6 +183,18 @@ app.get('/get/feed/:username', function(req, res) {
   });
 });
 
+app.get('/get/posts/:username', function (req, res) {
+    User.findOne({ username: req.params.username })
+        .exec(function (err, user) {
+            if (err) { console.error(err); return res.status(500).send(err); }
+            Post.find({ poster: user._id })
+                .exec(function (err, posts) {
+                    if (err) { console.error(err); return res.status(500).send(err); }
+                    res.send(posts);
+                });
+        });
+});
+
 app.get('/get/replies/:postId', function(req, res) {
   Post.findOne({_id: req.params.postId})
   .exec(function(err, parent) {
@@ -210,6 +222,22 @@ app.get('/get/dms/:user1/:user2', function(req, res) {
       });
     });
   });
+});
+
+app.get('/get/dms/:user', function (req, res) {
+    User.findOne({ username: req.params.user })
+        .exec(function (err, user) {
+            if (err) { console.error(err); return res.status(500).send(err); }
+            Message.find({ $or: [{ poster: user._id }, { receiver: user._id }] })
+                .exec(function (err, messages) {
+                    if (err) { console.error(err); return res.status(500).send(err); }
+                    User.find({ _id: { $in: messages.map(m => [m.poster, m.receiver]).flat() } })
+                        .exec(function (err, users) {
+                            if (err) { console.error(err); return res.status(500).send(err); }
+                            res.send(users.filter(u => u.username != req.params.user));
+                        })
+                });
+        });
 });
 
 
@@ -243,6 +271,9 @@ app.post('/post/like', function(req, res) {
     );
   });
 });
+
+
+//Path that fetches the user's posts for profile page
 
 
 // Delete

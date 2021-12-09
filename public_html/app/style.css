@@ -26,11 +26,11 @@ body {
 }
 
 #header, #info, #profilecontent, #sidebar, #flagchat, #logo, #sidebar textarea, #postImage, #submitPost,
-#chat, #profile, #conversations, #content {
+#chat, #profile, #conversations, #content, #posts {
     position: absolute;
 }
 
-#info, #profilecontent, #sidebar, #conversations, #content {
+#info, #profilecontent, #sidebar, #conversations, #content, #posts {
     height: 100%;
 }
 
@@ -44,6 +44,9 @@ body {
 #profilecontent, #content {
     left: 25vw;
     width: 50vw;
+}
+
+#profilecontent, #chatlog {
     overflow-y: scroll;
 }
 
@@ -54,6 +57,35 @@ body {
     background-color: #db162f;
 }
 
+#posts {
+    position: absolute;
+    width: 75vw;
+    overflow-y: scroll;
+}
+
+.post {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 2% 0px 1% 0px;
+    padding: 15px;
+    width: 40vw;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.poster, .likecount {
+    color: #003459;
+}
+
+.poster {
+    font-size: 25px;
+}
+
+.likecount {
+    float: right;
+}
+
 #conversations {
     overflow-y: scroll;
 }
@@ -62,27 +94,22 @@ body {
     font-size: 15px;
     color: #003459;
     background-color: white;
-    border-style: none;
+    border-style: solid;
     border-radius: 3px;
 }
 
+#info {
+    text-align: center;
+}
+
 #avatar {
-    position: relative;
+    position: absolute;
     left: 50%;
-    top: 175px;
+    top: 20%;
     transform: translateX(-50%);
     width: 220px;
     height: 220px;
     border-radius: 50%;
-}
-
-#username {
-    top: 175px;
-    margin-top: 20px;
-    text-align: center;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
 }
 
 #displayname {
@@ -166,4 +193,17 @@ body {
 #send {
     position: absolute;
     right: 0px;
+}
+
+#chatlog {
+    height: 78%;
+    padding: 25px 25px 20px 25px;
+}
+
+#getrecipient {
+    margin-bottom: 10px;
+}
+
+#input label {
+    margin-right: 5px;
 }

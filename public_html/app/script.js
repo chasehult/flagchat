@@ -89,8 +89,8 @@ function getPosts(posts) {
 
     for (post of posts) {
         let r = post;
-        resStr += '<div class="post"><b>' + getPoster(r.poster) + '</b><p>' + r.content + '</p><p>'
-            + r.likes.length + ' likes</p></div>';
+        resStr += '<div class="post"><b class="poster">' + getPoster(r.poster) + '</b><p class="postcontent">' + r.content + '</p><b class="likecount">'
+            + r.likes.length + ' likes</b></div>';
     }
 
     $('#posts').html(resStr);

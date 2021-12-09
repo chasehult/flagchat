@@ -141,6 +141,7 @@ app.post('/post/chat', function(req, res) {
     User.findOne({username: req.body.to})
     .exec(function (err, toUser) {
       if (err) {console.error(err); return res.status(500).send(err);}
+      if (toUser == null) {return res.status(400).send("Invalid user.");}
       Message.create({
         content: req.body.content,
         poster: fromUser._id,
@@ -184,15 +185,15 @@ app.get('/get/feed/:username', function(req, res) {
 });
 
 app.get('/get/posts/:username', function (req, res) {
-    User.findOne({ username: req.params.username })
-        .exec(function (err, user) {
-            if (err) { console.error(err); return res.status(500).send(err); }
-            Post.find({ poster: user._id })
-                .exec(function (err, posts) {
-                    if (err) { console.error(err); return res.status(500).send(err); }
-                    res.send(posts);
-                });
-        });
+  User.findOne({ username: req.params.username })
+  .exec(function (err, user) {
+    if (err) { console.error(err); return res.status(500).send(err); }
+    Post.find({ poster: user._id })
+    .exec(function (err, posts) {
+      if (err) { console.error(err); return res.status(500).send(err); }
+      res.send(posts);
+    });
+  });
 });
 
 app.get('/get/replies/:postId', function(req, res) {
@@ -214,6 +215,7 @@ app.get('/get/dms/:user1/:user2', function(req, res) {
     User.findOne({username: req.params.user2})
     .exec(function(err, user2) {
       if (err) {console.error(err); return res.status(500).send(err);}
+      if (user1 == null || user2 == null) {return res.status(400).send("Invalid user.");}
       Message.find({$or: [{poster: user1._id, receiver: user2._id},
                           {poster: user2._id, receiver: user1._id}]})
       .exec(function(err, messages) {
@@ -225,19 +227,19 @@ app.get('/get/dms/:user1/:user2', function(req, res) {
 });
 
 app.get('/get/dms/:user', function (req, res) {
-    User.findOne({ username: req.params.user })
-        .exec(function (err, user) {
-            if (err) { console.error(err); return res.status(500).send(err); }
-            Message.find({ $or: [{ poster: user._id }, { receiver: user._id }] })
-                .exec(function (err, messages) {
-                    if (err) { console.error(err); return res.status(500).send(err); }
-                    User.find({ _id: { $in: messages.map(m => [m.poster, m.receiver]).flat() } })
-                        .exec(function (err, users) {
-                            if (err) { console.error(err); return res.status(500).send(err); }
-                            res.send(users.filter(u => u.username != req.params.user));
-                        })
-                });
-        });
+  User.findOne({ username: req.params.user })
+  .exec(function (err, user) {
+    if (err) { console.error(err); return res.status(500).send(err); }
+    Message.find({ $or: [{ poster: user._id }, { receiver: user._id }] })
+    .exec(function (err, messages) {
+      if (err) { console.error(err); return res.status(500).send(err); }
+      User.find({ _id: { $in: messages.map(m => [m.poster, m.receiver]).flat() } })
+      .exec(function (err, users) {
+        if (err) { console.error(err); return res.status(500).send(err); }
+        res.send(users.filter(u => u.username != req.params.user));
+      })
+    });
+  });
 });
 
 

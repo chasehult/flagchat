@@ -52,8 +52,6 @@ function startConversation() {
 }
 
 function sendMessage() {
-
-
     $.post(window.location.origin + '/post/chat', {
         receiver: $('#recipient').val(),
         content: $('#mInput').val(),

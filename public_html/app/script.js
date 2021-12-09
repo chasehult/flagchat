@@ -20,17 +20,31 @@ if ('login' in cookies) {
 
 function init() {
   $('.unfield').text(username);
+  setImage();
   getFeed();
+}
+
+function setImage() {
+    $.ajax({
+        url: '/get/pfp/' + username,
+        method: 'GET',
+        success: function (pic) {
+            $('.pfp').attr('src', "../uploads/images/" + pic);
+        },
+        error: function (status, err) {
+            $('.pfp').attr('src', "imgs/defaulticon.jpg");
+        }
+    });
 }
 
 function sendPost() {
   $.post(window.location.origin + '/post/post', {
     poster: username,
     content: $('#newPostContent').val(),
-  }, (data, status) => {
+}, (data, status) => {
     alert(data);
     window.location.reload();
-  });
+});
 }
 
 function startConversation() {
@@ -52,21 +66,22 @@ function startConversation() {
 }
 
 function sendMessage() {
-
-
     $.post(window.location.origin + '/post/chat', {
-        receiver: $('#recipient').val(),
+        from: username,
+        to: $('#recipient').val(),
         content: $('#mInput').val(),
     }, (data, status) => {
         alert(data);
+    }).fail(function(data, status, err) {
+        alert(data.responseText);
     });
 }
 
 function getFeed() {
   $.get('/get/feed/' + username, (posts, status) => {
     posts.sort((a, b) => {return new Date(b['timestamp']) - new Date(a['timestamp']);});
-      getPosts(posts, '#posts');
-  })
+    getPosts(posts, '#posts');
+});
 }
 
 function getPoster(user_id) {
@@ -86,7 +101,6 @@ function getPoster(user_id) {
 
 function getPosts(posts, element) {
     resStr = '';
-    element = '\'' + element + '\'';
 
     for (post of posts) {
         let r = post;
@@ -149,4 +163,28 @@ function searchUsers() {
             element.scrollTop = element.scrollHeight;
         }
     });
+}
+
+function addImage() {
+  var formData = new FormData();
+  formData.append("photo", image = $("#fileButton").prop('files')[0]);
+  $.ajax({
+    url: window.location.origin + '/upload',
+    data: formData,
+    enctype: 'multipart/form-data',
+    cache: false,
+    contentType: false,
+    processData: false,
+    method: 'POST',
+    type: 'POST', // For jQuery < 1.9
+    success: function(data) {
+      $.post(window.location.origin + '/post/pfp', {
+        username: username,
+        filename: data.filename,
+    }, (data, status) => {
+        alert(data);
+        window.location.reload();
+    });
+  }
+});
 }

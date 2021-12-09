@@ -27,6 +27,7 @@ var User = mongoose.model('User', new mongoose.Schema({
   username: String,
   password: String,  // Salted MD5 hash (md5(username+'&&&'+password))
   following: [ObjectId],  // User
+  picture: String,  // or NULL
 }));
 var Post = mongoose.model('Post', new mongoose.Schema({
   content: String,
@@ -73,7 +74,7 @@ app.post('/post/login', (req, res) => {
       return res.end('Failed to login');
     } else {
       sessions[req.body.username] = Date.now();
-      res.cookie("login", JSON.stringify({username: req.body.username}), {maxAge: 120000});
+      res.cookie("login", JSON.stringify({username: req.body.username}), {maxAge: 10 * 60 * 1000});
       res.end('LOGIN');
     }
   });
@@ -93,8 +94,7 @@ app.post('/post/signup', function(req, res) {
     if (err || results.length == 0) { 
       User.create({
         username: req.body.username,
-        password: md5(req.body.username+'&&&'+req.body.password),
-        dms: {},
+        password: md5(req.body.username+'&&&'+req.body.password)
       });
       res.end('OK');
     } else {
@@ -141,6 +141,7 @@ app.post('/post/chat', function(req, res) {
     User.findOne({username: req.body.to})
     .exec(function (err, toUser) {
       if (err) {console.error(err); return res.status(500).send(err);}
+      if (toUser == null) {return res.status(400).send("Invalid user.");}
       Message.create({
         content: req.body.content,
         poster: fromUser._id,
@@ -184,15 +185,15 @@ app.get('/get/feed/:username', function(req, res) {
 });
 
 app.get('/get/posts/:username', function (req, res) {
-    User.findOne({ username: req.params.username })
-        .exec(function (err, user) {
-            if (err) { console.error(err); return res.status(500).send(err); }
-            Post.find({ poster: user._id })
-                .exec(function (err, posts) {
-                    if (err) { console.error(err); return res.status(500).send(err); }
-                    res.send(posts);
-                });
-        });
+  User.findOne({ username: req.params.username })
+  .exec(function (err, user) {
+    if (err) { console.error(err); return res.status(500).send(err); }
+    Post.find({ poster: user._id })
+    .exec(function (err, posts) {
+      if (err) { console.error(err); return res.status(500).send(err); }
+      res.send(posts);
+    });
+  });
 });
 
 app.get('/get/replies/:postId', function(req, res) {
@@ -214,6 +215,7 @@ app.get('/get/dms/:user1/:user2', function(req, res) {
     User.findOne({username: req.params.user2})
     .exec(function(err, user2) {
       if (err) {console.error(err); return res.status(500).send(err);}
+      if (user1 == null || user2 == null) {return res.status(400).send("Invalid user.");}
       Message.find({$or: [{poster: user1._id, receiver: user2._id},
                           {poster: user2._id, receiver: user1._id}]})
       .exec(function(err, messages) {
@@ -225,19 +227,36 @@ app.get('/get/dms/:user1/:user2', function(req, res) {
 });
 
 app.get('/get/dms/:user', function (req, res) {
-    User.findOne({ username: req.params.user })
-        .exec(function (err, user) {
-            if (err) { console.error(err); return res.status(500).send(err); }
-            Message.find({ $or: [{ poster: user._id }, { receiver: user._id }] })
-                .exec(function (err, messages) {
-                    if (err) { console.error(err); return res.status(500).send(err); }
-                    User.find({ _id: { $in: messages.map(m => [m.poster, m.receiver]).flat() } })
-                        .exec(function (err, users) {
-                            if (err) { console.error(err); return res.status(500).send(err); }
-                            res.send(users.filter(u => u.username != req.params.user));
-                        })
-                });
-        });
+  User.findOne({ username: req.params.user })
+  .exec(function (err, user) {
+    if (err) { console.error(err); return res.status(500).send(err); }
+    Message.find({ $or: [{ poster: user._id }, { receiver: user._id }] })
+    .exec(function (err, messages) {
+      if (err) { console.error(err); return res.status(500).send(err); }
+      User.find({ _id: { $in: messages.map(m => [m.poster, m.receiver]).flat() } })
+      .exec(function (err, users) {
+        if (err) { console.error(err); return res.status(500).send(err); }
+        res.send(users.filter(u => u.username != req.params.user));
+      })
+    });
+  });
+});
+
+app.get('/get/pfp/:username', function(req, res) {
+  User.findOne({username: req.params.username})
+  .exec(function(err, user) {
+    if (err) {console.error(err); return res.status(500).send(err);}
+    if (user.picture == null) {return res.status(400).send(err);}
+    res.send(user.picture);
+  });
+});
+
+app.get('/search/users/:keyword', function(req, res) {
+  User.find({username: {$regex: `.*${req.params.keyword}.*`}})
+  .exec(function(err, data) {
+    if (err) {console.error(err); return res.status(500).send(err);}
+    res.send(data);
+  });
 });
 
 
@@ -270,6 +289,17 @@ app.post('/post/like', function(req, res) {
       }
     );
   });
+});
+
+app.post('/post/pfp', function(req, res) {
+  User.updateOne(
+  	{username: req.body.username},
+    {$set: {picture: req.body.filename}},
+    function(err, data) {
+      if (err) {console.error(err); return res.status(500).send(err);}
+      res.end("OK");
+    }
+  );
 });
 
 

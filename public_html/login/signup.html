@@ -4,7 +4,9 @@
 <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="style.css">
-    <title>friendLY</title>
+    <title>Flagchat Sign Up</title>
+    <script src="jquery.js"></script>
+    <script src="script.js"></script>
 </head>
 <body id="signupPage">
 
@@ -15,12 +17,8 @@
         <br />
         <input id="signuppass" type="password" class="box" value="Password">
         <br />
-        <input id="signupButton" type="button" value="sign up" class="submit" />
+        <input id="signupButton" type="button" value="sign up" class="submit" onclick="signup()" />
 
-        <div id="alreadyuser" class="links">
-            <p>Already a user?</p>
-            <a href="login.html">Log in.</a>
-        </div>
         <div id="alreadyuser" class="links">
             <p>Already a user?</p>
             <a href="/login/login.html">Log in.</a>

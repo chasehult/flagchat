@@ -33,6 +33,34 @@ function sendPost() {
   });
 }
 
+function startConversation() {
+
+    $.post(window.location.origin + '/post/chat', {
+        content: $('#mInput').val(),
+        from: username,
+        to: $('#recipient').val()
+    }, (data, status) => {
+
+        if (status != 200) {
+            alert("Username not found!");
+        }
+        else {
+            alert(data);
+        }
+    });
+
+}
+
+function sendMessage() {
+
+
+    $.post(window.location.origin + '/post/chat', {
+        receiver: $('#recipient').val(),
+        content: $('#mInput').val(),
+    }, (data, status) => {
+        alert(data);
+    });
+}
 
 function getFeed() {
   $.get('/get/feed/' + username, (posts, status) => {
@@ -61,7 +89,7 @@ function getPosts(posts) {
 
     for (post of posts) {
         let r = post;
-        resStr += '<div class="post"><b>' + r.poster + '</b><p>' + r.content + '</p><p>'
+        resStr += '<div class="post"><b>' + getPoster(r.poster) + '</b><p>' + r.content + '</p><p>'
             + r.likes.length + ' likes</p></div>';
     }
 
@@ -74,9 +102,19 @@ function getMessages(messages) {
 
     for (message of messages) {
         let r = messages;
-        resStr += '<div class="message"><b>' + r.poster + '</b><p>' + r.content + '</p></div>';
+        resStr += '<div class="message"><b>' + getPoster(r.poster) + '</b><p>' + r.content + '</p></div>';
     }
 
     $('#chatlog').html(resStr);
     $('#chatlog').scrollTop = $('#chatlog').scrollHeight;
+}
+
+function getChatLog() {
+    var user1 = username;
+    var user2 = $('#recipient').val();
+
+    $.get('/get/dms/:user1/:user2', (messages, status) => {
+        messages.sort((a, b) => { return new Date(a['timestamp']) - new Date(b['timestamp']); });
+        getMessages(messages);
+    })
 }

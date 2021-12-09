@@ -19,7 +19,13 @@
     <div id="nonheader">
 
         <div id="conversations">
-            Different conversations go here.
+            <p>Start a conversation: </p>
+            <div id="startinput">
+                <label for="recipient">Who do you want to send a message to?</label>
+                <input type="text" id="recipient" name="recipient">
+                <textarea id="mInput" cols="85" rows="2" placeholder="write message..."></textarea>
+                <input id="send" type="button" value="Send Message" onclick="startConversation()"/>
+            </div>
         </div>
 
         <div id="content">
@@ -35,10 +41,10 @@
 
         <div id="sidebar">
             <textarea id="newPostContent" placeholder="What's up?" cols="38" rows="8"></textarea>
-            <img id="postImage" src="imgs/photo.png" />
+            
             <input onclick="sendPost()" type="button" id="submitPost" value="Create Post" class="submit" />
 
-            <div id="chat">
+            <div id="chat" >
                 <img id="inboxlogo" src="imgs/inboxicon.png" />
                 <p>Chat</p>
             </div>

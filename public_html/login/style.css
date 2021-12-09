@@ -91,25 +91,13 @@ p, a {
     background-color: #c1645d;
 }
 
-    #signup h1 {
-        font-size: 35px;
-    }
+#signup h1 {
+    font-size: 35px;
+}
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 #signup .box {
     color: #053C5E;
 }
-=======
-    #signup .box {
-        color: #053C5E;
-    }
->>>>>>> Stashed changes
-=======
-    #signup .box {
-        color: #053C5E;
-    }
->>>>>>> Stashed changes
 
 #signupButton {
     color: #c1645d;

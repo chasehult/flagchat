@@ -38,9 +38,6 @@ function getFeed() {
     posts.sort((a, b) => {return new Date(b['timestamp']) - new Date(a['timestamp']);});
       getPosts(posts);
   })
-<<<<<<< Updated upstream
-}
-=======
 }
 
 function getPoster(user_id) {
@@ -62,17 +59,9 @@ function getPosts(posts) {
     resStr = '';
 
     for (post of posts) {
-<<<<<<< Updated upstream
-        let r = posts[post];
+        let r = post;
         resStr += '<div class="post"><b>' + r.poster + '</b><p>' + r.content + '</p><p>'
             + r.likes.length + ' likes</p></div>';
-=======
-        let r = posts[i];
-        resStr += '<div class="post"><b>' + getPoster(r.poster) + '</b><p>' + r.content + '</p><p>'
-            + r.likes.length + ' likes</p><div id="replyinput">< textarea id = "rInput" cols = "75" rows = "1" >' +
-            'write message...</textarea ><input id="sendreply" type="button" value="Send Message"' +
-            'onclick="sendReply();" /></div ></div>';
->>>>>>> Stashed changes
     }
 
     $('#posts').html(resStr);
@@ -93,4 +82,3 @@ function getMessages(messages) {
 
 //<div id="replyinput">< textarea id="rInput" cols="75" rows="1" >' +
 //    'write message...</div>
->>>>>>> Stashed changes

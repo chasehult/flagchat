@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Home</title>
+    <script src="jquery.js"></script>
+    <script src="script.js"></script>
+    <link rel="shortcut icon" type="image/jpg" href="imgs/logo.png">
+</head>
+<body>
+    <div id="posts">
+        <!-- posts go here -->
+    </div>
+
+    <div id="navigation">
+        <div id="header">
+            <h1 id="flagchat">Flagchat</h1>
+            <h1 class="unfield"></h1>
+            
+            <img id="logo" src="imgs/logo.png" />
+        </div>
+
+        <div id="newPost">
+            <textarea id="newPostContent" cols="38" rows="8" placeholder="What's up?"></textarea>
+            <img id="postImage" src="imgs/photo.png" />
+            <input onclick="sendPost()" type="button" id="submitPost" value="create post" class="submit" />
+        </div>
+
+        <div id="links">
+            <span id="chat">
+                <img id="inboxlogo" src="imgs/inboxicon.png" />
+                
+            </span>
+
+            <span id="profile">
+                <img id="icon" src="imgs/defaulticon.png" />
+                
+            </span>
+        </div>
+    </div>
+    <script>init()</script>
+</body>
+</html>

@@ -53,10 +53,13 @@ function startConversation() {
 
 function sendMessage() {
     $.post(window.location.origin + '/post/chat', {
-        receiver: $('#recipient').val(),
+        from: username,
+        to: $('#recipient').val(),
         content: $('#mInput').val(),
     }, (data, status) => {
         alert(data);
+    }).fail(function(data, status, err) {
+        alert(data.responseText);
     });
 }
 

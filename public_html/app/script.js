@@ -20,17 +20,31 @@ if ('login' in cookies) {
 
 function init() {
   $('.unfield').text(username);
+  setImage();
   getFeed();
+}
+
+function setImage() {
+    $.ajax({
+        url: '/get/pfp/' + username,
+        method: 'GET',
+        success: function (pic) {
+            $('.pfp').attr('src', "../uploads/images/" + pic);
+        },
+        error: function (status, err) {
+            $('.pfp').attr('src', "imgs/defaulticon.jpg");
+        }
+    });
 }
 
 function sendPost() {
   $.post(window.location.origin + '/post/post', {
     poster: username,
     content: $('#newPostContent').val(),
-  }, (data, status) => {
+}, (data, status) => {
     alert(data);
     window.location.reload();
-  });
+});
 }
 
 function startConversation() {
@@ -66,8 +80,8 @@ function sendMessage() {
 function getFeed() {
   $.get('/get/feed/' + username, (posts, status) => {
     posts.sort((a, b) => {return new Date(b['timestamp']) - new Date(a['timestamp']);});
-      getPosts(posts, '#posts');
-  })
+    getPosts(posts, '#posts');
+});
 }
 
 function getPoster(user_id) {
@@ -91,7 +105,7 @@ function getPosts(posts, element) {
     for (post of posts) {
         let r = post;
         resStr += '<div class="post"><b class="poster">' + getPoster(r.poster) + '</b><p class="postcontent">' + r.content + '</p><b class="likecount">'
-            + r.likes.length + ' likes</b></div>';
+        + r.likes.length + ' likes</b></div>';
     }
 
     $(element).html(resStr);
@@ -125,4 +139,28 @@ function getChatLog() {
         messages.sort((a, b) => { return new Date(a['timestamp']) - new Date(b['timestamp']); });
         getMessages(messages);
     })
+}
+
+function addImage() {
+  var formData = new FormData();
+  formData.append("photo", image = $("#fileButton").prop('files')[0]);
+  $.ajax({
+    url: window.location.origin + '/upload',
+    data: formData,
+    enctype: 'multipart/form-data',
+    cache: false,
+    contentType: false,
+    processData: false,
+    method: 'POST',
+    type: 'POST', // For jQuery < 1.9
+    success: function(data) {
+      $.post(window.location.origin + '/post/pfp', {
+        username: username,
+        filename: data.filename,
+    }, (data, status) => {
+        alert(data);
+        window.location.reload();
+    });
+  }
+});
 }

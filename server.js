@@ -27,6 +27,7 @@ var User = mongoose.model('User', new mongoose.Schema({
   username: String,
   password: String,  // Salted MD5 hash (md5(username+'&&&'+password))
   following: [ObjectId],  // User
+  picture: String,  // or NULL
 }));
 var Post = mongoose.model('Post', new mongoose.Schema({
   content: String,
@@ -93,8 +94,7 @@ app.post('/post/signup', function(req, res) {
     if (err || results.length == 0) { 
       User.create({
         username: req.body.username,
-        password: md5(req.body.username+'&&&'+req.body.password),
-        dms: {},
+        password: md5(req.body.username+'&&&'+req.body.password)
       });
       res.end('OK');
     } else {
@@ -242,6 +242,15 @@ app.get('/get/dms/:user', function (req, res) {
   });
 });
 
+app.get('/get/pfp/:username', function(req, res) {
+  User.findOne({username: req.params.username})
+  .exec(function(err, user) {
+    if (err) {console.error(err); return res.status(500).send(err);}
+    if (user.picture == null) {return res.status(400).send(err);}
+    res.send(user.picture);
+  });
+});
+
 
 // Update
 app.post('/post/follow', function(req, res) {
@@ -272,6 +281,17 @@ app.post('/post/like', function(req, res) {
       }
     );
   });
+});
+
+app.post('/post/pfp', function(req, res) {
+  User.updateOne(
+  	{username: req.body.username},
+    {$set: {picture: req.body.filename}},
+    function(err, data) {
+      if (err) {console.error(err); return res.status(500).send(err);}
+      res.end("OK");
+    }
+  );
 });
 
 

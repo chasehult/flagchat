@@ -3,36 +3,39 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="style1.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
     <title>Home</title>
     <link rel="shortcut icon" type="image/jpg" href="imgs/logo.png">
 </head>
 <body>
-
-    <div id="header">
-        <h1 id="flagchat">Flagchat</h1>
-        <img id="logo" src="imgs/logo.png" />
+    <div id="posts">
+        <!-- posts go here -->
     </div>
 
-    <div id="nonheader">
-        <div id="posts">
-            <!-- posts go here -->
+    <div id="navigation">
+        <div id="header">
+            <h1 id="flagchat">Flagchat</h1>
+            <h1 id="un">@username</h1>
+            
+            <img id="logo" src="imgs/logo.png" />
         </div>
 
-        <div id="sidebar">
+        <div id="newPost">
             <textarea id="newPostContent" cols="38" rows="8">what's up?</textarea>
             <img id="postImage" src="imgs/photo.png" />
             <input type="button" id="submitPost" value="create post" class="submit" />
+        </div>
 
-            <div id="chat">
+        <div id="links">
+            <span id="chat">
                 <img id="inboxlogo" src="imgs/inboxicon.png" />
-                <p>Chat</p>
-            </div>
+                
+            </span>
 
-            <div id="profile">
+            <span id="profile">
                 <img id="icon" src="imgs/defaulticon.png" />
-                <p>Profile</p>
-            </div>
+                
+            </span>
         </div>
     </div>
 

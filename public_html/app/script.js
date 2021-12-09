@@ -43,13 +43,36 @@ function getFeed() {
 =======
 }
 
+function getPoster(user_id) {
+    var un = '';
+
+    $.ajax({
+        url: '/get/username/' + user_id,
+        method: 'GET',
+        async: false,
+        success: function (username) {
+            un = username;
+        }
+    });
+
+    return un;
+}
+
 function getPosts(posts) {
     resStr = '';
 
     for (post of posts) {
+<<<<<<< Updated upstream
         let r = posts[post];
         resStr += '<div class="post"><b>' + r.poster + '</b><p>' + r.content + '</p><p>'
             + r.likes.length + ' likes</p></div>';
+=======
+        let r = posts[i];
+        resStr += '<div class="post"><b>' + getPoster(r.poster) + '</b><p>' + r.content + '</p><p>'
+            + r.likes.length + ' likes</p><div id="replyinput">< textarea id = "rInput" cols = "75" rows = "1" >' +
+            'write message...</textarea ><input id="sendreply" type="button" value="Send Message"' +
+            'onclick="sendReply();" /></div ></div>';
+>>>>>>> Stashed changes
     }
 
     $('#posts').html(resStr);

@@ -96,9 +96,15 @@ p, a {
     }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 #signup .box {
     color: #053C5E;
 }
+=======
+    #signup .box {
+        color: #053C5E;
+    }
+>>>>>>> Stashed changes
 =======
     #signup .box {
         color: #053C5E;

@@ -90,8 +90,9 @@ function getPosts(posts, element) {
 
     for (post of posts) {
         let r = post;
-        resStr += '<div class="post"><b class="poster">' + getPoster(r.poster) + '</b><p class="postcontent">' + r.content + '</p><b class="likecount">'
-            + r.likes.length + ' likes</b></div>';
+        resStr += '<div class="post"><b class="poster">' + getPoster(r.poster) + '</b><p class="postcontent">' + r.content
+            + '</p><input type="button" onclick="like()" class="likebutton" value="Like" /><b class="likecount">' + r.likes.length
+            + ' likes</b></div>';
     }
 
     $(element).html(resStr);
@@ -125,4 +126,27 @@ function getChatLog() {
         messages.sort((a, b) => { return new Date(a['timestamp']) - new Date(b['timestamp']); });
         getMessages(messages);
     })
+}
+
+function like() {
+    
+}
+
+function searchUsers() {
+    let key = $('#searchbox').val();
+    $.ajax({
+        url: '/search/users/' + key,
+        method: 'GET',
+        success: function (result) {
+            let element = $('#userlist');
+            results = JSON.parse(result);
+            resStr = '';
+            for (var i in results) {
+                let r = results[i];
+                resStr += r.username + '<input onclick="follow()" type="button" id="followbutton" value="follow" class="submit" /><br />';
+            }
+            element.html(resStr);
+            element.scrollTop = element.scrollHeight;
+        }
+    });
 }

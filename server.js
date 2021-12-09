@@ -251,6 +251,14 @@ app.get('/get/pfp/:username', function(req, res) {
   });
 });
 
+app.get('/search/users/:keyword', function(req, res) {
+  User.find({username: {$regex: `.*${req.params.keyword}.*`}})
+  .exec(function(err, data) {
+    if (err) {console.error(err); return res.status(500).send(err);}
+    res.send(data);
+  });
+});
+
 
 // Update
 app.post('/post/follow', function(req, res) {
